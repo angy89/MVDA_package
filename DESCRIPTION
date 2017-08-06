@@ -1,0 +1,21 @@
+Package: MVDA
+Date: 2014-11-16
+Title: Multi-View Biological Data Analysis
+Version: 0.1
+Author: Angela Serra
+Maintainer: Angela Serra <aserra@unisa.it>
+Description: the package contains functions for the analysis of biological data
+    multi-view of which you are interested to find subclasses of patients, when
+    you have access to the original classes. The analysis approach proposed is
+    composed of three stages, one in which we clusters the features to reduce
+    its size and find the prototypes for each cluster. One in which you rank
+    the prototypes to find the most significant for class separability.One in
+    which you clusters patients in each view and then integrate each results in
+    a late integration step with different methods.
+Depends: R (>= 3.1.0), class, MASS, clv, amap, pvclust, fpc, infotheo,
+        kernlab, sda, randomForest, rminer, CorKohonen, ggplot2, corrgram,
+        reshape2
+NeedsCompilation: no
+License: (GPL>=2)
+LazyLoad: Yes
+Packaged: 2015-04-13 08:52:38 UTC; Angela
