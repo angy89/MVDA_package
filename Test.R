@@ -1,5 +1,3 @@
-#setwd("~/Dropbox/paper tesi/bmc_article/Script_paper/MVDA/")
-
 library(MVDA)
 data(tcga_breast)
 
@@ -10,6 +8,7 @@ prep_res = best_preprocessing(DB = miRNA,nCentersRange = c(5,10,20,30,40),
                               som_dim = list(c(1,5),c(2,5),c(4,5),c(6,5),c(5,8)),
                               clustAlgos = c("KMeans","Pam","Ward","SOM"))
 plot(prep_res$gplt)
+
 
 miRNA_km_summary <- clustering_summary(DB=miRNA, cluster=miRNA_km$clustering)
 
@@ -65,6 +64,9 @@ patientsDB <- t(cbind(t(prototypes_RNA),t(prototypes_miRNA)))
 mf_res <- MF(A = X,k = 10,eps = 0.000001,iter_max = 1000,nView = 3,V1.lc1 = 4,
 			V1.lc2 = 4,V1.lc3 = 4,V1.lc4 = 0,V1.lc5 = 0,
 			patients_classes = info$x,patientsDB = patientsDB)
+
+plot_TMat(TMat = mf_res$T_mat,mv_clust = mf_res$mv_cluster,viewNames = c("miRNA","RNA","PriorKnowledge"),fisherRes = mf_res$fisher)
+
 GLI_res <- general_late_integration(A = X,k = K,alfa = 1,
  			eps = 0.001,patientsDB = patientsDB,patients_classes = info$x)
 
@@ -76,7 +78,6 @@ stability_results_MF = mvclst(method = "MF",nPatients = 151,nClusters = K,A = X,
 
 
 var_col = plot_feature_variance_between_centroids(center=mf_res$center,v_limit = 12,h_limit=1)
-
 
 center_correlation(centers = mf_res$center)
 

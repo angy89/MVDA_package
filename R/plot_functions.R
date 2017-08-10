@@ -1,5 +1,34 @@
 #' A MVDA Function
 #'
+#' This function plots TMatrix coming from the matrix factorization integration process
+#' @param TMat is the T matrix returned by the matrix factorization function. Each row is a view and each column is a multi-view cluster
+#' @param mv_clust is the vector of multi-view clustering assignment
+#' @param viewNames is a vector of strings representing the names of the view
+#' @param fisherRes is the matrix of the fisher test
+#' @export
+
+plot_TMat = function(TMat,mv_clust,viewNames,fisherRes){
+  mv_clust = names(table(mv_clust))
+  non_empty_clust = paste("Cluster",mv_clust,sep="")
+  fisherRes = fisherRes[non_empty_clust,]
+  fisherRes = as.data.frame(fisherRes)
+  cluster_labels = fisherRes$`Cluster class`
+
+  pvalues = c()
+  
+  for(i in  1:nrow(fisherRes)){
+    pvalues = c(pvalues,as.numeric(as.vector(fisherRes[i,fisherRes[i,"Cluster class"]])))
+  }
+  
+  #colnames(TMat) = paste(rownames(fisherRes),fisherRes$`Cluster class`,"Pvalue:",sprintf("%0.2g",pvalues),sep="\n ")
+  colnames(TMat) = paste(fisherRes$`Cluster class`,paste("P: ",sprintf("%0.2g",pvalues),sep=""),sep="\n ")
+  
+  barplot(TMat,beside = T,col=rainbow(nrow(TMat)),ylim = c(0,1.1))
+  legend(x = "top",legend = viewNames,fill = rainbow(nrow(TMat)),ncol = nrow(TMat))
+}
+
+#' A MVDA Function
+#'
 #' This function plots the variance between of each features between the centroids
 #' @param center is the matrix of centroids of the multi-view clusters; each row is a centroid andh the columns are the features
 #' @return the correlation of the variables sorted in decreasing order
