@@ -9,6 +9,7 @@
 
 plot_TMat = function(TMat,mv_clust,viewNames,fisherRes){
   mv_clust = names(table(mv_clust))
+  TMat = TMat[,as.numeric(mv_clust)]
   non_empty_clust = paste("Cluster",mv_clust,sep="")
   fisherRes = fisherRes[non_empty_clust,]
   fisherRes = as.data.frame(fisherRes)
